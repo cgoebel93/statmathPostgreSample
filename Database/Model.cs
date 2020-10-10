@@ -10,7 +10,7 @@ namespace statmathPostgreSample.Database
         public DbSet<Blog> blog { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql("Host=localhost;Database=testdb;Username=test;Password=test");
+            => optionsBuilder.UseNpgsql("Host=postgreDB;Database=testdb;Username=test;Password=test");
     }
 
 
