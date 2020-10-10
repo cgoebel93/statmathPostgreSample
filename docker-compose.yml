@@ -1,16 +1,18 @@
 version: '3'
 
 services:
-  testpostgres:
+  postgreDB:
      image: postgres:11.1
      restart: always
      environment:
-         POSTGRES_USER: test
-         POSTGRES_PASSWORD: test
+         POSTGRES_USER: testuser
+         POSTGRES_PASSWORD: testpwd
+         POSTGRES_DB: testdb
      volumes:
        - pgdata:/var/lib/postgresql/data
-  statmath:
-    image: statmath
+       - ./dbscripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
+  consoleapp:
+    image: consoleapp
     restart: 'no'
     build:
       context: .
@@ -18,7 +20,7 @@ services:
     ports:
        - 5000:80
     depends_on:
-       - "testpostgres"
+       - "postgreDB"
 
 volumes:
   pgdata:
