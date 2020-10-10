@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using statmathPostgreSample.Database;
+using System;
+using System.Linq;
 
 namespace statmathPostgreSample
 {
@@ -6,7 +10,18 @@ namespace statmathPostgreSample
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Start");
+
+            Model model = new Model();
+            var blogs = model.blog.ToList();
+
+            foreach (var item in blogs)
+            {
+                Console.WriteLine(item.description);
+            }
+
+            Console.WriteLine("End");
+            Console.ReadLine();
         }
     }
 }

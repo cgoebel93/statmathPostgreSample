@@ -5,13 +5,15 @@ using System.Text;
 
 namespace statmathPostgreSample.Database
 {
-    public class BloggingContext : DbContext
+    public class Model : DbContext
     {
-        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Blog> blog { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql("Host=localhost;Database=testdb;Username=testuser;Password=testpwd");
+            => optionsBuilder.UseNpgsql("Host=localhost;Database=testdb;Username=test;Password=test");
     }
+
+
 
     public class Blog
     {
