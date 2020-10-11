@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1
  
-EXPOSE 80
+EXPOSE 5432
 
 WORKDIR /app
  
