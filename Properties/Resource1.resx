@@ -108,4 +108,25 @@
   <data name="MachineControllerWrongInput" xml:space="preserve">
     <value>Please make a valid selection!</value>
   </data>
+  <data name="Machine" xml:space="preserve">
+    <value>Machine</value>
+  </data>
+  <data name="Job" xml:space="preserve">
+    <value>Job</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="MachineControllerCsvImportFailed" xml:space="preserve">
+    <value>CSV-File could not be imported into database</value>
+  </data>
+  <data name="FileWasAlreadyInserted" xml:space="preserve">
+    <value>File was already inserted!</value>
+  </data>
+  <data name="UnhandledException" xml:space="preserve">
+    <value>Unhandled exception</value>
+  </data>
 </root>

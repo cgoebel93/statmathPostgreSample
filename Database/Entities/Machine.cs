@@ -8,7 +8,6 @@ namespace statmathPostgreSample.Database.Entities
     {
         public int ID { get; set; }
         public string Name { get; set; }
-
         public List<MachineJob> MachineJobs { get; set; }
     }
 }

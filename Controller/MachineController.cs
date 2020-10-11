@@ -23,6 +23,7 @@ namespace statmathPostgreSample.Controller
         public void ShowOptions()
         {
             Console.WriteLine(Environment.NewLine + Properties.Resource1.MachineControllerOptions + Environment.NewLine);
+
             string unserInput = Console.ReadLine();
 
             if (int.TryParse(unserInput, out int result))
@@ -43,7 +44,7 @@ namespace statmathPostgreSample.Controller
                         }
                     case MachineControllerOptions.DeleteEverything:
                         {
-                            DeleteAllMachines();
+                            DeleteAllEverything();
                             break;
                         }
                     case MachineControllerOptions.InsertFromCSV:
@@ -72,7 +73,7 @@ namespace statmathPostgreSample.Controller
         }
 
         /// <summary>
-        /// Print all Machines in console
+        /// Print all machines to console
         /// </summary>
         public void ListAllMachines()
         {
@@ -81,26 +82,21 @@ namespace statmathPostgreSample.Controller
                 var machines = model.Machines.ToList();
 
                 foreach (var item in machines)
-                    Console.WriteLine(item.Name);
+                    Console.WriteLine($"{Properties.Resource1.Machine}: {item.Name}");
             }
 
-            ShowOptions();
-        }
-
-        public void ReadMachinesFromCSV()
-        {
-         
             ShowOptions();
         }
 
         /// <summary>
         /// Delete all machines and jobs from database
         /// </summary>
-        public void DeleteAllMachines()
+        public void DeleteAllEverything()
         {
             using (MachineModel model = new MachineModel())
             {
                 model.Machines.RemoveRange(model.Machines.ToList());
+                model.MachineJobs.RemoveRange(model.MachineJobs.ToList());
                 model.SaveChanges();
             }
 
@@ -119,7 +115,8 @@ namespace statmathPostgreSample.Controller
 
                 foreach (MachineJob job in machineJobs)
                 {
-                    Console.WriteLine($"* {job.Machine.Name}: {job.StartDate} - {job.EndDate}");
+                    model.Entry(job).Reference(x => x.Machine).Load();
+                    Console.WriteLine($"*{Properties.Resource1.Job}-{job.ID} {Properties.Resource1.Machine}-{job.Machine.Name.Trim()}: {job.StartDate} - {job.EndDate}");
                 }
             }
 
@@ -143,7 +140,7 @@ namespace statmathPostgreSample.Controller
                 {
                     if(model.MachineJobs.FirstOrDefault() != null)
                     {
-                        Console.WriteLine("File was already inserted");
+                        Console.WriteLine(Properties.Resource1.FileWasAlreadyInserted);
                         ShowOptions();
                         return;
                     }
@@ -204,12 +201,13 @@ namespace statmathPostgreSample.Controller
                     var changes2  = model.ChangeTracker.Entries().ToList();
                     model.SaveChanges();
                 }
+
+                ShowOptions();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"File plan.csv could not be imported into database: {ex.ToString()}");
+                Console.WriteLine($"{Properties.Resource1.MachineControllerCsvImportFailed}:{Environment.NewLine + ex.ToString()}");
             }
-            
         }
     }
 }

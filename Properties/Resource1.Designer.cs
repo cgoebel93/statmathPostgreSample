@@ -61,6 +61,51 @@ namespace statmathPostgreSample.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die End ähnelt.
+        /// </summary>
+        internal static string End {
+            get {
+                return ResourceManager.GetString("End", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die File was already inserted! ähnelt.
+        /// </summary>
+        internal static string FileWasAlreadyInserted {
+            get {
+                return ResourceManager.GetString("FileWasAlreadyInserted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Job ähnelt.
+        /// </summary>
+        internal static string Job {
+            get {
+                return ResourceManager.GetString("Job", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Machine ähnelt.
+        /// </summary>
+        internal static string Machine {
+            get {
+                return ResourceManager.GetString("Machine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die CSV-File could not be imported into database ähnelt.
+        /// </summary>
+        internal static string MachineControllerCsvImportFailed {
+            get {
+                return ResourceManager.GetString("MachineControllerCsvImportFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select one option:
         ///1. List all machines
         ///2. List all jobs
@@ -80,6 +125,24 @@ namespace statmathPostgreSample.Properties {
         internal static string MachineControllerWrongInput {
             get {
                 return ResourceManager.GetString("MachineControllerWrongInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Start ähnelt.
+        /// </summary>
+        internal static string Start {
+            get {
+                return ResourceManager.GetString("Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unhandled exception ähnelt.
+        /// </summary>
+        internal static string UnhandledException {
+            get {
+                return ResourceManager.GetString("UnhandledException", resourceCulture);
             }
         }
     }

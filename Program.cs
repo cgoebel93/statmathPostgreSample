@@ -18,8 +18,7 @@ namespace statmathPostgreSample
             }
             catch (Exception e)
             {
-                Console.WriteLine("Unhandled Exception:");
-                Console.WriteLine(e.ToString());
+                Console.WriteLine($"{Properties.Resource1.UnhandledException} {e}");
             }
         }
     }
