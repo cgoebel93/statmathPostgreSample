@@ -1,12 +1,22 @@
-CREATE TABLE blog
+CREATE TABLE Machines
 (
- id serial PRIMARY KEY,
- title VARCHAR (50) NOT NULL,
- description VARCHAR (100) NOT NULL
+    ID integer NOT NULL,
+    Name character(50),
+    CONSTRAINT Machines_pkey PRIMARY KEY (ID)
 );
 
-ALTER TABLE “blog” OWNER TO postgres;
+CREATE TABLE MachineJobs
+(
+    ID integer NOT NULL,
+    MachineID integer NOT NULL,
+    StartDate timestamp without time zone,
+    EndDate timestamp without time zone,
+    CONSTRAINT MachineJobs_pkey PRIMARY KEY (ID),
+    CONSTRAINT MachineJobs_Machine FOREIGN KEY (MachineID)
+        REFERENCES public.Machines (ID) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
 
-INSERT INTO public.blog	VALUES (1, 'Title1', 'Desc1');
-INSERT INTO public.blog	VALUES (2, 'Title2', 'Desc2');
-INSERT INTO public.blog	VALUES (3, 'Title3', 'Desc3');
+

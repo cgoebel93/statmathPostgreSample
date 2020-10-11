@@ -23,7 +23,6 @@ namespace statmathPostgreSample.Controller
         public void ShowOptions()
         {
             Console.WriteLine(Environment.NewLine + Properties.Resource1.MachineControllerOptions + Environment.NewLine);
-
             string unserInput = Console.ReadLine();
 
             if (int.TryParse(unserInput, out int result))
@@ -79,10 +78,10 @@ namespace statmathPostgreSample.Controller
         {
             using (MachineModel model = new MachineModel())
             {
-                var machines = model.Machines.ToList();
+                var machines = model.machines.ToList();
 
                 foreach (var item in machines)
-                    Console.WriteLine($"{Properties.Resource1.Machine}: {item.Name}");
+                    Console.WriteLine($"{Properties.Resource1.Machine}: {item.name}");
             }
 
             ShowOptions();
@@ -95,8 +94,8 @@ namespace statmathPostgreSample.Controller
         {
             using (MachineModel model = new MachineModel())
             {
-                model.Machines.RemoveRange(model.Machines.ToList());
-                model.MachineJobs.RemoveRange(model.MachineJobs.ToList());
+                model.machines.RemoveRange(model.machines.ToList());
+                model.machinejobs.RemoveRange(model.machinejobs.ToList());
                 model.SaveChanges();
             }
 
@@ -111,12 +110,12 @@ namespace statmathPostgreSample.Controller
         {
             using (MachineModel model = new MachineModel())
             {
-                List<MachineJob> machineJobs = model.MachineJobs.Include(x => x.Machine).ToList();
+                List<MachineJob> machineJobs = model.machinejobs.Include(x => x.Machine).ToList();
 
                 foreach (MachineJob job in machineJobs)
                 {
                     model.Entry(job).Reference(x => x.Machine).Load();
-                    Console.WriteLine($"*{Properties.Resource1.Job}-{job.ID} {Properties.Resource1.Machine}-{job.Machine.Name.Trim()}: {job.StartDate} - {job.EndDate}");
+                    Console.WriteLine($"*{Properties.Resource1.Job}-{job.id} {Properties.Resource1.Machine}-{job.Machine.name.Trim()}: {job.startdate} - {job.enddate}");
                 }
             }
 
@@ -138,7 +137,7 @@ namespace statmathPostgreSample.Controller
                 //Prevent multiple file import
                 using (MachineModel model = new MachineModel())
                 {
-                    if(model.MachineJobs.FirstOrDefault() != null)
+                    if(model.machinejobs.FirstOrDefault() != null)
                     {
                         Console.WriteLine(Properties.Resource1.FileWasAlreadyInserted);
                         ShowOptions();
@@ -167,27 +166,27 @@ namespace statmathPostgreSample.Controller
 
                         MachineJob newMachineJob = new MachineJob();
 
-                        Machine newMachine = machines.Where(x => x.Name.Equals(values[0])).FirstOrDefault();
+                        Machine newMachine = machines.Where(x => x.name.Equals(values[0])).FirstOrDefault();
                         if (newMachine == null)
                         {
                             newMachine = new Machine();
-                            newMachine.ID = machineID++;
-                            newMachine.Name = values[0];
+                            newMachine.id = machineID++;
+                            newMachine.name = values[0];
                             machines.Add(newMachine);
                         }
 
                         newMachineJob.Machine = newMachine;
 
                         if(int.TryParse(values[1], out int result))
-                            newMachineJob.ID = result;
+                            newMachineJob.id = result;
 
                         if (DateTime.TryParseExact(values[2], "yyyy-MM-dd-HH-mm", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime startDate))
                         {
-                            newMachineJob.StartDate = startDate;
+                            newMachineJob.startdate = startDate;
                         }
                         if (DateTime.TryParseExact(values[3], "yyyy-MM-dd-HH-mm", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime endDate))
                         {
-                            newMachineJob.EndDate = endDate;
+                            newMachineJob.enddate = endDate;
                         }
 
                         machineJobs.Add(newMachineJob);
@@ -197,7 +196,7 @@ namespace statmathPostgreSample.Controller
                 //Save jobs and machines to DB
                 using (MachineModel model = new MachineModel())
                 {
-                    model.MachineJobs.AddRange(machineJobs);
+                    model.machinejobs.AddRange(machineJobs);
                     var changes2  = model.ChangeTracker.Entries().ToList();
                     model.SaveChanges();
                 }

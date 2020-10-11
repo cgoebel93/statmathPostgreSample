@@ -34,8 +34,8 @@ namespace statmathPostgreSample.Database
         #endregion
 
         #region Entities
-        public DbSet<Machine> Machines { get; set; }
-        public DbSet<MachineJob> MachineJobs { get; set; }
+        public DbSet<Machine> machines { get; set; }
+        public DbSet<MachineJob> machinejobs { get; set; }
 
         #endregion
 
