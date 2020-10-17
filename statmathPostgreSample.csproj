@@ -43,8 +43,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DockerExchange\Database\Scripts\" />
-  </ItemGroup>
-
 </Project>
