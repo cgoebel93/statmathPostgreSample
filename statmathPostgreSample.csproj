@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Database\scripts\plan.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.8">
@@ -16,6 +20,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Database\scripts\plan.csv">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -31,12 +41,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Database\scripts\plan.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

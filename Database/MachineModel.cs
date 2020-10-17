@@ -25,9 +25,9 @@ namespace statmathPostgreSample.Database
             get
             {
                 if (IsInDocker)
-                    return "Host=postgreDB;Database=testdb;Username=test;Password=test";
+                    return "Server=host.docker.internal;Database=testdb;Username=test;Password=test";
                 else
-                    return "Host=localhost;Database=testdb;Username=test;Password=test";
+                    return "Server=localhost;Database=testdb;Username=test;Password=test";
             }
         }
 

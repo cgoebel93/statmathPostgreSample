@@ -1,6 +1,7 @@
 ﻿using statmathPostgreSample.Database;
 using statmathPostgreSample.Database.Entities;
 using statmathPostgreSample.Enums;
+using statmathPostgreSample.Properties;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -22,7 +23,7 @@ namespace statmathPostgreSample.Controller
         /// </summary>
         public void ShowOptions()
         {
-            Console.WriteLine(Environment.NewLine + Properties.Resource1.MachineControllerOptions + Environment.NewLine);
+            Console.WriteLine(Environment.NewLine + Resource1.MachineControllerOptions + Environment.NewLine);
             string unserInput = Console.ReadLine();
 
             if (int.TryParse(unserInput, out int result))
@@ -58,7 +59,7 @@ namespace statmathPostgreSample.Controller
                         }
                     default:
                         {
-                            Console.WriteLine(Properties.Resource1.MachineControllerWrongInput);
+                            Console.WriteLine(Resource1.MachineControllerWrongInput);
                             ShowOptions();
                             break;
                         }
@@ -81,7 +82,7 @@ namespace statmathPostgreSample.Controller
                 var machines = model.machines.ToList();
 
                 foreach (var item in machines)
-                    Console.WriteLine($"{Properties.Resource1.Machine}: {item.name}");
+                    Console.WriteLine($"{Resource1.Machine}: {item.name}");
             }
 
             ShowOptions();
@@ -115,7 +116,7 @@ namespace statmathPostgreSample.Controller
                 foreach (MachineJob job in machineJobs)
                 {
                     model.Entry(job).Reference(x => x.Machine).Load();
-                    Console.WriteLine($"*{Properties.Resource1.Job}-{job.id} {Properties.Resource1.Machine}-{job.Machine.name.Trim()}: {job.startdate} - {job.enddate}");
+                    Console.WriteLine($"*{Resource1.Job}-{job.id} {Properties.Resource1.Machine}-{job.Machine.name.Trim()}: {job.startdate} - {job.enddate}");
                 }
             }
 
@@ -145,67 +146,62 @@ namespace statmathPostgreSample.Controller
                     }
                 }
 
-
                 List<MachineJob> machineJobs = new List<MachineJob>();
                 List<Machine> machines = new List<Machine>();
 
-                string csvPath = AppDomain.CurrentDomain.BaseDirectory + @"Database\Scripts\plan.csv";
-                using (var reader = new StreamReader(csvPath))
+                string plan = Resource1.plan;
+                string[] splittedPlan = plan.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                int machineID = 1;
+
+                foreach (string line in splittedPlan)
                 {
+                    var values = line.Split(';');
 
-                    int machineID = 1;
-                    while (!reader.EndOfStream)
+                    if (values[0].Equals("machine"))
+                        continue;
+
+                    MachineJob newMachineJob = new MachineJob();
+
+                    Machine newMachine = machines.Where(x => x.name.Equals(values[0])).FirstOrDefault();
+                    if (newMachine == null)
                     {
-                        var line = reader.ReadLine();
-                        var values = line.Split(';');
-
-                        if (String.IsNullOrEmpty(values[0]) || values[0].Equals("machine"))
-                        {
-                            continue;
-                        }
-
-                        MachineJob newMachineJob = new MachineJob();
-
-                        Machine newMachine = machines.Where(x => x.name.Equals(values[0])).FirstOrDefault();
-                        if (newMachine == null)
-                        {
-                            newMachine = new Machine();
-                            newMachine.id = machineID++;
-                            newMachine.name = values[0];
-                            machines.Add(newMachine);
-                        }
-
-                        newMachineJob.Machine = newMachine;
-
-                        if(int.TryParse(values[1], out int result))
-                            newMachineJob.id = result;
-
-                        if (DateTime.TryParseExact(values[2], "yyyy-MM-dd-HH-mm", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime startDate))
-                        {
-                            newMachineJob.startdate = startDate;
-                        }
-                        if (DateTime.TryParseExact(values[3], "yyyy-MM-dd-HH-mm", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime endDate))
-                        {
-                            newMachineJob.enddate = endDate;
-                        }
-
-                        machineJobs.Add(newMachineJob);
+                        newMachine = new Machine();
+                        newMachine.id = machineID++;
+                        newMachine.name = values[0];
+                        machines.Add(newMachine);
                     }
+
+                    newMachineJob.Machine = newMachine;
+
+                    if (int.TryParse(values[1], out int result))
+                        newMachineJob.id = result;
+
+                    if (DateTime.TryParseExact(values[2], "yyyy-MM-dd-HH-mm", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime startDate))
+                    {
+                        newMachineJob.startdate = startDate;
+                    }
+                    if (DateTime.TryParseExact(values[3], "yyyy-MM-dd-HH-mm", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out DateTime endDate))
+                    {
+                        newMachineJob.enddate = endDate;
+                    }
+
+                    machineJobs.Add(newMachineJob);
                 }
 
                 //Save jobs and machines to DB
                 using (MachineModel model = new MachineModel())
                 {
                     model.machinejobs.AddRange(machineJobs);
-                    var changes2  = model.ChangeTracker.Entries().ToList();
                     model.SaveChanges();
                 }
+
+                Console.WriteLine($"{Resource1.MachineControllerInsertDone}");
 
                 ShowOptions();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{Properties.Resource1.MachineControllerCsvImportFailed}:{Environment.NewLine + ex.ToString()}");
+                Console.WriteLine($"{Resource1.MachineControllerCsvImportFailed}:{Environment.NewLine + ex.ToString()}");
             }
         }
     }

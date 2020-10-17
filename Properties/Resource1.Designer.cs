@@ -106,6 +106,15 @@ namespace statmathPostgreSample.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Insert done! ähnelt.
+        /// </summary>
+        internal static string MachineControllerInsertDone {
+            get {
+                return ResourceManager.GetString("MachineControllerInsertDone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select one option:
         ///1. List all machines
         ///2. List all jobs
@@ -125,6 +134,26 @@ namespace statmathPostgreSample.Properties {
         internal static string MachineControllerWrongInput {
             get {
                 return ResourceManager.GetString("MachineControllerWrongInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die machine;job;start;end        ///
+        ///MA-01;37282;2020-09-27-18-09;2020-09-27-19-14        ///
+        ///MA-01;37283;2020-09-27-18-10;2020-09-27-19-15        ///
+        ///MA-01;37284;2020-09-27-18-11;2020-09-27-19-16        ///
+        ///MA-01;37285;2020-09-27-18-12;2020-09-27-19-17        ///
+        ///MA-01;37286;2020-09-27-18-13;2020-09-27-19-18        ///
+        ///MA-01;37287;2020-09-27-18-14;2020-09-27-19-19        ///
+        ///MA-01;37288;2020-09-27-18-15;2020-09-27-19-20        ///
+        ///MA-01;37289;2020-09-27-18-16;2020-09-27-19-21        ///
+        ///MA-01;37290;2020-09-27-18-17;2020-09-27-19-22        ///
+        ///MA-45;37291;2020-09-27-18-18;2020-09-27-19-23        ///
+        ///MA-01;37 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        internal static string plan {
+            get {
+                return ResourceManager.GetString("plan", resourceCulture);
             }
         }
         
