@@ -44,7 +44,7 @@ namespace statmathPostgreSample.Controller
                         }
                     case MachineControllerOptions.DeleteEverything:
                         {
-                            DeleteAllEverything();
+                            DeleteAll();
                             break;
                         }
                     case MachineControllerOptions.InsertFromCSV:
@@ -67,7 +67,7 @@ namespace statmathPostgreSample.Controller
             }
             else
             {
-                Console.WriteLine(Properties.Resource1.MachineControllerWrongInput);
+                Console.WriteLine(Resource1.MachineControllerWrongInput);
                 ShowOptions();
             }
         }
@@ -91,7 +91,7 @@ namespace statmathPostgreSample.Controller
         /// <summary>
         /// Delete all machines and jobs from database
         /// </summary>
-        public void DeleteAllEverything()
+        public void DeleteAll()
         {
             using (MachineModel model = new MachineModel())
             {
@@ -100,8 +100,9 @@ namespace statmathPostgreSample.Controller
                 model.SaveChanges();
             }
 
-            ShowOptions();
+            Console.WriteLine($"{Resource1.MachineControllerDeleteDone}");
 
+            ShowOptions();
         }
 
         /// <summary>
@@ -116,7 +117,7 @@ namespace statmathPostgreSample.Controller
                 foreach (MachineJob job in machineJobs)
                 {
                     model.Entry(job).Reference(x => x.Machine).Load();
-                    Console.WriteLine($"*{Resource1.Job}-{job.id} {Properties.Resource1.Machine}-{job.Machine.name.Trim()}: {job.startdate} - {job.enddate}");
+                    Console.WriteLine($"*{Resource1.Job}-{job.id} {Resource1.Machine}-{job.Machine.name.Trim()}: {job.startdate} - {job.enddate}");
                 }
             }
 
@@ -140,7 +141,7 @@ namespace statmathPostgreSample.Controller
                 {
                     if(model.machinejobs.FirstOrDefault() != null)
                     {
-                        Console.WriteLine(Properties.Resource1.FileWasAlreadyInserted);
+                        Console.WriteLine(Resource1.FileWasAlreadyInserted);
                         ShowOptions();
                         return;
                     }
@@ -150,14 +151,14 @@ namespace statmathPostgreSample.Controller
                 List<Machine> machines = new List<Machine>();
 
                 string plan = Resource1.plan;
-                string[] splittedPlan = plan.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                string[] splittedPlan = plan.Split(new string[] { Environment.NewLine, "\r\n", "\r", "\n" }, StringSplitOptions.None);
                 int machineID = 1;
 
                 foreach (string line in splittedPlan)
                 {
                     var values = line.Split(';');
 
-                    if (values[0].Equals("machine"))
+                    if (String.IsNullOrEmpty(line) ||  values[0].Equals("machine"))
                         continue;
 
                     MachineJob newMachineJob = new MachineJob();

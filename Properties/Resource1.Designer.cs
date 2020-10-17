@@ -106,6 +106,15 @@ namespace statmathPostgreSample.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Delete done! ähnelt.
+        /// </summary>
+        internal static string MachineControllerDeleteDone {
+            get {
+                return ResourceManager.GetString("MachineControllerDeleteDone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Insert done! ähnelt.
         /// </summary>
         internal static string MachineControllerInsertDone {

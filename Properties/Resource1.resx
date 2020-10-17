@@ -156,4 +156,7 @@
   <data name="MachineControllerInsertDone" xml:space="preserve">
     <value>Insert done!</value>
   </data>
+  <data name="MachineControllerDeleteDone" xml:space="preserve">
+    <value>Delete done!</value>
+  </data>
 </root>
