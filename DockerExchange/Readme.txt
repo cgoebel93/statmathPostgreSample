@@ -6,7 +6,7 @@ How to run the programm in docker:
 
 3. docker-compose up -d --build
 
-4. docker run --rm -it consoleapp
+4. docker run --rm -it cgoebel93/statmathpostgresample
 
 
 
