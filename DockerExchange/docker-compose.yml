@@ -9,7 +9,7 @@ services:
          POSTGRES_PASSWORD: test
          POSTGRES_DB: testdb
      volumes:
-       - ./Database/Scripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
+       - ./Database/scripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
        - pgdata:/var/lib/postgresql/data
      ports:
        - 5432:5432

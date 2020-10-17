@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Database\scripts\plan.csv" />
+    <None Remove="Database\Scripts\plan.csv" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Database\scripts\plan.csv">
+    <Resource Include="Database\Scripts\plan.csv">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -41,6 +41,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DockerExchange\Database\Scripts\" />
   </ItemGroup>
 
 </Project>
