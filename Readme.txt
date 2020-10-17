@@ -1,0 +1,1 @@
+A simple .NET Core Console App which can read data from a .csv file into a postgreSQL database
