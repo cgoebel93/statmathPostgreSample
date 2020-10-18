@@ -13,6 +13,7 @@ namespace statmathPostgreSample.Controller
 {
     public class MachineController
     {
+        private DatabaseQueryController queryController = new DatabaseQueryController();
         public MachineController()
         {
 
@@ -77,13 +78,8 @@ namespace statmathPostgreSample.Controller
         /// </summary>
         public void ListAllMachines()
         {
-            using (MachineModel model = new MachineModel())
-            {
-                var machines = model.machines.ToList();
-
-                foreach (var item in machines)
-                    Console.WriteLine($"{Resource1.Machine}: {item.name}");
-            }
+            foreach (Machine item in queryController.GetAllEntries<Machine>())
+                Console.WriteLine($"{Resource1.Machine}: {item.name}");
 
             ShowOptions();
         }
@@ -93,13 +89,8 @@ namespace statmathPostgreSample.Controller
         /// </summary>
         public void DeleteAll()
         {
-            using (MachineModel model = new MachineModel())
-            {
-                model.machines.RemoveRange(model.machines.ToList());
-                model.machinejobs.RemoveRange(model.machinejobs.ToList());
-                model.SaveChanges();
-            }
-
+            queryController.DeleteAllEntries<MachineJob>();
+            queryController.DeleteAllEntries<Machine>();
             Console.WriteLine($"{Resource1.MachineControllerDeleteDone}");
 
             ShowOptions();
@@ -110,16 +101,8 @@ namespace statmathPostgreSample.Controller
         /// </summary>
         public void ListAllMachineJobs()
         {
-            using (MachineModel model = new MachineModel())
-            {
-                List<MachineJob> machineJobs = model.machinejobs.Include(x => x.Machine).ToList();
-
-                foreach (MachineJob job in machineJobs)
-                {
-                    model.Entry(job).Reference(x => x.Machine).Load();
-                    Console.WriteLine($"*{Resource1.Job}-{job.id} {Resource1.Machine}-{job.Machine.name.Trim()}: {job.startdate} - {job.enddate}");
-                }
-            }
+            foreach (MachineJob job in queryController.GetAllMachineJobs())
+                Console.WriteLine($"*{Resource1.Job}-{job.id} {Resource1.Machine}-{job.Machine.name.Trim()}: {job.startdate} - {job.enddate}");
 
             ShowOptions();
         }
@@ -137,15 +120,13 @@ namespace statmathPostgreSample.Controller
             try
             {
                 //Prevent multiple file import
-                using (MachineModel model = new MachineModel())
+                if (queryController.CheckIfTableEmpty<MachineJob>() == false)
                 {
-                    if(model.machinejobs.FirstOrDefault() != null)
-                    {
-                        Console.WriteLine(Resource1.FileWasAlreadyInserted);
-                        ShowOptions();
-                        return;
-                    }
+                    Console.WriteLine(Resource1.FileWasAlreadyInserted);
+                    ShowOptions();
+                    return;
                 }
+                
 
                 List<MachineJob> machineJobs = new List<MachineJob>();
                 List<Machine> machines = new List<Machine>();
@@ -190,11 +171,7 @@ namespace statmathPostgreSample.Controller
                 }
 
                 //Save jobs and machines to DB
-                using (MachineModel model = new MachineModel())
-                {
-                    model.machinejobs.AddRange(machineJobs);
-                    model.SaveChanges();
-                }
+                queryController.InsertObjectsIntoDatabase(machineJobs);
 
                 Console.WriteLine($"{Resource1.MachineControllerInsertDone}");
 

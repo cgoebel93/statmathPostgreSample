@@ -4,7 +4,7 @@ using System.Text;
 
 namespace statmathPostgreSample.Database.Entities
 {
-    public class Machine
+    public class Machine : Entity
     {
         public int id { get; set; }
         public string name { get; set; }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace statmathPostgreSample.Database.Entities
 {
-    public class MachineJob
+    public class MachineJob : Entity
     {
         public int id { get; set; }
         public DateTime startdate { get; set; }
