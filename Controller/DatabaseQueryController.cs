@@ -1,11 +1,12 @@
-﻿using statmathPostgreSample.Database.Entities;
+﻿using statmathPostgreSample.Database;
+using statmathPostgreSample.Database.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
 
-namespace statmathPostgreSample.Database
+namespace statmathPostgreSample.Controller
 {
     class DatabaseQueryController
     {
